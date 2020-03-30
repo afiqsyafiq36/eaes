@@ -1,0 +1,19 @@
+.box {
+  position: relative;
+  margin-left: 20px;
+}
+.box:before{
+  position: absolute;
+  left: -20px;
+  content: "";
+  height:20px;
+  width:20px;
+  margin-bottom:25px;
+  border:1px transparent;
+}
+.box.ent:before{
+  background-color:red;
+}
+.box.ext:before{
+  background-color:blue;
+}
