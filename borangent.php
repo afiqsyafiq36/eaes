@@ -45,7 +45,10 @@ if(isset($_POST['kursus'])) {
                  $tambah = "INSERT INTO entrance (kodkursus,fullname,ent_C1S1,ent_C1S2,ent_C1S3,ent_C2S1,ent_C2S2,ent_c2S3,ent_C3S1,ent_C3S2,ent_C3S3,ent_tarikh) VALUES 
                  ('$kursus','$nama','$c1s1','$c1s2','$c1s3','$c2s1','$c2s2','$c2s3','$c3s1','$c3s2','$c3s3','$tarikh')";
                   //kursus
+                 $added_history = "INSERT INTO activity_history (activity,created_date) VALUES ('$nama telah melengkapkan Entrance Survey bagi Kod Kursus $kursus .', NOW())";
+                 
                  $hasil = mysqli_query($hubung,$tambah);
+                 $activity = mysqli_query($hubung,$added_history);
                  
                        echo "<script>alert('Tahniah anda telah melengkapkan Entrance Survey');
                           window.location='borangent.php'</script>";
