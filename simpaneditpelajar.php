@@ -18,12 +18,16 @@ include "sambung.php";
 		$password_hash = password_hash($confirm_password, PASSWORD_DEFAULT);
 		$kemaskini = mysqli_query($hubung, "UPDATE user SET password = '$password_hash',fullname = '$namapenuh',nomatrik = '$nomatrik',email = '$email' WHERE id = '$id' ");
 
+		//record user activity
+		$activity = "INSERT INTO activity_history (activity,created_date) VALUES ('Pengguna $namapenuh telah mengemaskini maklumat akaun', NOW())";
+		$added_activity = mysqli_query($hubung,$activity);
+
 		echo "<script>alert('User detail updated!');
 			window.location = 'profilepelajar.php'</script>";
 	}
 	else
 	{
-		echo "<script>alert('Please check your password credentials');
+		echo "<script>alert('Please make sure to using the right password');
 		window.location = 'profilepelajar.php'</script>";
 	}
 

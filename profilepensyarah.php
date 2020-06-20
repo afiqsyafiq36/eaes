@@ -273,7 +273,7 @@ $no++;
             <div class="tab-content">
               
               <div class="active tab-pane" id="settings">
-                <form class="form-horizontal" action="simpaneditpensyarah.php" method="POST">
+                <form class="form-horizontal" name="chngpwd" action="simpaneditpensyarah.php" method="POST">
                   <div class="form-group">
                     <label for="inputName" class="col-sm-2 control-label">Username</label>
 
@@ -295,17 +295,32 @@ $no++;
                     </div>
                   </div>
                   <div class="form-group">
-                    <label for="inputPassword" class="col-sm-2 control-label">Password</label>
-
-                    <div class="col-sm-10">
-                      <input type="password" name="pass" class="form-control" id="inputPassword" value="<?php echo $pass; ?>" required>
-                    </div>
-                  </div>
-                  <div class="form-group">
                     <label for="inputEmail" class="col-sm-2 control-label">Email</label>
 
                     <div class="col-sm-10">
                       <input type="email" name="email" class="form-control" id="inputEmail" value="<?php echo $email; ?>" required>
+                    </div>
+                  </div>
+
+                  <hr>
+                  <div class="form-group">
+                    <label for="inputPassword" class="col-sm-2 control-label">Old Password</label>
+                    <div class="col-sm-10">
+                      <input type="password" name="opw" class="form-control" id="inputPassword" placeholder="Recent password" required>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="inputPassword" class="col-sm-2 control-label">New Password</label>
+                    <div class="col-sm-10">
+                      <input type="password" name="npw" class="form-control" id="inputPassword" placeholder="New Password.." required>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="inputPassword" class="col-sm-2 control-label">Confirm Password</label>
+                    <div class="col-sm-10">
+                      <input type="password" name="cpw" class="form-control" id="inputPassword" placeholder="Retype your password.." required>
                     </div>
                   </div>
                   <div class="form-group">
@@ -363,7 +378,48 @@ $no++;
 </div>
 <!-- ./wrapper -->
 <?php include "importfungsi.php"; ?>
+<script>
+   $(document).on('click', ':not(form)[data-confirm]', function(e){
+                              if(!confirm($(this).data('confirm'))){
+                                e.stopImmediatePropagation();
+                                e.preventDefault();
+                              }
+                          });
+  //valid password changes
+function valid()
+{
+  if(document.chngpwd.opw.value == null)
+  {
+    alert("Please fill out your old password");
+    document.chngpwd.opw.focus();
 
+    return false;
+  }
+  else if(document.chngpwd.npw.value == null)
+  {
+    alert("Please fill out your new password");
+    document.chngpwd.npw.focus();
+
+    return false;
+  }
+  else if(document.chngpwd.cpw.value == null)
+  {
+    alert("Please retype your password to confirm a new one");
+    document.chngpwd.cpw.focus();
+
+    return false;
+  }
+  else if(document.chngpwd.npw.value != document.chngpwd.cpw.value)
+  {
+    alert("Your new password and confirm password do not match");
+    document.chngpwd.cpw.focus();
+
+    return false;
+  }
+
+  return true;
+}
+</script>
 
 </body>
 </html>
