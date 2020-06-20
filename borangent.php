@@ -670,7 +670,7 @@ function showCourse() {
                           <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
 </form>
-<!-- //close form action-->
+<!-- close form action-->
             
             </div>
             <!-- /.box-body -->
