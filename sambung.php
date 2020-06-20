@@ -2,7 +2,7 @@
 
 $host = "localhost";
 $user = "root";
-$password = "";
+$password = "mysql";
 $dbname = "eaes_db";
 
 $hubung = mysqli_connect($host,$user,$password,$dbname);

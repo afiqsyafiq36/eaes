@@ -272,7 +272,7 @@ $no++;
             <div class="tab-content">
               
               <div class="active tab-pane" id="settings">
-                <form class="form-horizontal" action="simpaneditpelajar.php" method="POST">
+                <form class="form-horizontal" name="chngpwd" action="simpaneditpelajar.php" method="POST" onSubmit="return valid();">
                   <div class="form-group">
                     <label for="inputName" class="col-sm-2 control-label">Username</label>
 
@@ -294,22 +294,38 @@ $no++;
                     </div>
                   </div>
                   <div class="form-group">
-                    <label for="inputPassword" class="col-sm-2 control-label">Password</label>
-
-                    <div class="col-sm-10">
-                      <input type="password" name="pass" class="form-control" id="inputPassword" value="<?php echo $pass; ?>" required>
-                    </div>
-                  </div>
-                  <div class="form-group">
                     <label for="inputEmail" class="col-sm-2 control-label">Email</label>
 
                     <div class="col-sm-10">
                       <input type="email" name="email" class="form-control" id="inputEmail" value="<?php echo $email; ?>" required>
                     </div>
                   </div>
+
+                  <hr>
+                  <div class="form-group">
+                    <label for="inputPassword" class="col-sm-2 control-label">Old Password</label>
+                    <div class="col-sm-10">
+                      <input type="password" name="opw" class="form-control" id="inputPassword" placeholder="Recent password" required>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="inputPassword" class="col-sm-2 control-label">New Password</label>
+                    <div class="col-sm-10">
+                      <input type="password" name="npw" class="form-control" id="inputPassword" placeholder="New Password.." required>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="inputPassword" class="col-sm-2 control-label">Confirm Password</label>
+                    <div class="col-sm-10">
+                      <input type="password" name="cpw" class="form-control" id="inputPassword" placeholder="Retype your password.." required>
+                    </div>
+                  </div>
+
                   <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                      <button type="submit" class="btn btn-danger" data-confirm="Kemaskini maklumat?">Update</button>
+                      <button type="submit" class="btn btn-danger" name="submit">Update</button>
                     </div>
                   </div>
                  <input type="hidden" name="idk" value="<?php echo $id; ?>">
@@ -370,6 +386,40 @@ $no++;
                                 e.preventDefault();
                               }
                           });
+//valid password changes
+function valid()
+{
+  if(document.chngpwd.opw.value == null)
+  {
+    alert("Please fill out your old password");
+    document.chngpwd.opw.focus();
+
+    return false;
+  }
+  else if(document.chngpwd.npw.value == null)
+  {
+    alert("Please fill out your new password");
+    document.chngpwd.npw.focus();
+
+    return false;
+  }
+  else if(document.chngpwd.cpw.value == null)
+  {
+    alert("Please retype your password to confirm a new one");
+    document.chngpwd.cpw.focus();
+
+    return false;
+  }
+  else if(document.chngpwd.npw.value != document.chngpwd.cpw.value)
+  {
+    alert("Your new password and confirm password do not match");
+    document.chngpwd.cpw.focus();
+
+    return false;
+  }
+
+  return true;
+}
 </script> 
 
 

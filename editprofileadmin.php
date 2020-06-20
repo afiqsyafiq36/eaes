@@ -278,29 +278,23 @@ $kursus = mysqli_num_rows($ag3);
         <div class="col-md-9">
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
-              <li class="active"><a href="#settings" data-toggle="tab">Settings</a></li>
+              <li class="active"><a href="#profile" data-toggle="tab">Activity</a></li>
+              <li><a href="#settings" data-toggle="tab">Settings</a></li>
             </ul>
             <div class="tab-content">
               
-              <div class="active tab-pane" id="settings">
-                <form class="form-horizontal" action="simpaneditadmin1.php" method="POST">
+              <div class="tab-pane" id="settings">
+                <form class="form-horizontal" name="chngpwd" action="simpaneditadmin1.php" method="POST" onSubmit="return valid();">
                   <div class="form-group">
                     <label for="inputName" class="col-sm-2 control-label">Username</label>
 
                     <div class="col-sm-10">
-                      <input disabled="" class="form-control" id="inputName" value="<?php echo $user; ?>" required>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputPassword" class="col-sm-2 control-label">Password</label>
-
-                    <div class="col-sm-10">
-                      <input type="password" name="pass" class="form-control" id="inputPassword" value="<?php echo $pass; ?>" required>
+                      <input disabled="" class="form-control" id="inputName1" value="<?php echo $user; ?>" required>
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="inputEmail" class="col-sm-2 control-label">Email</label>
-
+                    
                     <div class="col-sm-10">
                       <input type="email" name="email" class="form-control" id="inputEmail" value="<?php echo $email; ?>" required>
                     </div>
@@ -312,15 +306,93 @@ $kursus = mysqli_num_rows($ag3);
                       <input type="text" name="notel" class="form-control" id="inputName" value="<?php echo $notel; ?>" required>
                     </div>
                   </div>
+
+                  <hr>
+                  <div class="form-group">
+                    <label for="inputPassword" class="col-sm-2 control-label">Old Password</label>
+                    <div class="col-sm-10">
+                      <input type="password" name="opw" class="form-control" id="inputPassword" placeholder="Recent password" required>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="inputPassword" class="col-sm-2 control-label">New Password</label>
+                    <div class="col-sm-10">
+                      <input type="password" name="npw" class="form-control" id="inputPassword" placeholder="New Password.." required>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="inputPassword" class="col-sm-2 control-label">Confirm Password</label>
+                    <div class="col-sm-10">
+                      <input type="password" name="cpw" class="form-control" id="inputPassword" placeholder="Retype your password.." required>
+                    </div>
+                  </div>
+
                   <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                      <button type="submit" class="btn btn-danger" data-confirm="Kemaskini maklumat?">Update</button>
+                      <button type="submit" class="btn btn-danger" name="submit">Update</button>
                     </div>
                   </div>
 
                 </form>
               </div>
               <!-- /.tab-pane -->
+              <div class="active tab-pane" id="profile">
+              <?php
+                $query = mysqli_query($hubung,"SELECT * FROM activity_history WHERE DATE(created_date) = CURRENT_DATE() ORDER BY created_date DESC");
+                if(mysqli_num_rows($query) != null) {
+                  while($data = mysqli_fetch_array($query)) {
+                    $activity = $data['activity'];
+                    $date_create = $data['created_date'];
+                    $date_display = date('Y-m-d H:i:s',strtotime($date_create));
+              ?>
+                <!-- Post -->
+                <div class="post">
+                  <div class="user-block">
+                    <img class="img-circle img-bordered-sm" src="./images/bot.png" alt="user image">
+                        <span class="username">
+                          <a href="#">System bot</a>
+                        </span>
+                    <span class="description"><time class="timeago" datetime="<?= $date_display; ?>"></time></span>
+                    <!-- <time class="timeago" datetime="2008-07-17T09:24:17Z">July 17, 2008</time> -->
+                  </div>
+                  <!-- /.user-block -->
+                  <p>
+                    <?= $activity ?>
+                  </p>
+                </div>
+                <!-- /.post -->
+              <?php
+                  }
+                } elseif(mysqli_num_rows($query) == "") {
+              ?>
+              <!-- Post -->
+              <div class="post">
+                  <div class="user-block">
+                    <img class="img-circle img-bordered-sm" src="./images/bot.png" alt="user image">
+                        <span class="username">
+                          <a href="#">System bot</a>
+                        </span>
+                    <span class="description">today</span>
+                    <!-- <time class="timeago" datetime="2008-07-17T09:24:17Z">July 17, 2008</time> -->
+                  </div>
+                  <!-- /.user-block -->
+                  <p>
+                    No recent activity..
+                  </p>
+                </div>
+                <!-- /.post -->
+              <?php
+                } else {
+                  echo "Something not right";
+                }
+              ?>
+                
+                
+              </div>
+              <!-- /.tab-pane -->
+
             </div>
             <!-- /.tab-content -->
           </div>
@@ -367,14 +439,53 @@ $kursus = mysqli_num_rows($ag3);
 <!-- ./wrapper -->
 
 <?php include "importfungsi.php"; ?>
-<script>
+<script type="text/javascript">
                             $(document).on('click', ':not(form)[data-confirm]', function(e){
                               if(!confirm($(this).data('confirm'))){
                                 e.stopImmediatePropagation();
                                 e.preventDefault();
                               }
                           });
+$(document).ready(function() {
+  $("time.timeago").timeago();
+});
+
+//valid password changes
+function valid()
+{
+  if(document.chngpwd.opw.value == null)
+  {
+    alert("Please fill out your old password");
+    document.chngpwd.opw.focus();
+
+    return false;
+  }
+  else if(document.chngpwd.npw.value == null)
+  {
+    alert("Please fill out your new password");
+    document.chngpwd.npw.focus();
+
+    return false;
+  }
+  else if(document.chngpwd.cpw.value == null)
+  {
+    alert("Please retype your password to confirm a new one");
+    document.chngpwd.cpw.focus();
+
+    return false;
+  }
+  else if(document.chngpwd.npw.value != document.chngpwd.cpw.value)
+  {
+    alert("Your new password and confirm password do not match");
+    document.chngpwd.cpw.focus();
+
+    return false;
+  }
+
+  return true;
+}
 </script> 
 
 </body>
 </html>
+

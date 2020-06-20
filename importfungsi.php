@@ -40,3 +40,5 @@
 <script src="./adminlte/dist/js/demo.js"></script>
 <!-- ChartJS -->
 <script src="./adminlte/bower_components/chart.js/Chart.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="./js/jquery.timeago.js" type="text/javascript"></script>
