@@ -285,7 +285,7 @@ $(document).ready(function(){
 </script>
 
 <?php include "importfungsi.php"; ?>
-
+<?php include "importjs.php"; ?>
 
 </body>
 </html>

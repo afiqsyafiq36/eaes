@@ -717,7 +717,7 @@ function showCourse() {
 <!-- ./wrapper -->
 
 <?php include "importfungsi.php"; ?>
-
+<?php include "importjs.php"; ?>
 
 </body>
 </html>

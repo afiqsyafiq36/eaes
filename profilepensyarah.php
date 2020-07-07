@@ -378,6 +378,7 @@ $no++;
 </div>
 <!-- ./wrapper -->
 <?php include "importfungsi.php"; ?>
+<?php include "importjs.php"; ?>
 <script>
    $(document).on('click', ':not(form)[data-confirm]', function(e){
                               if(!confirm($(this).data('confirm'))){

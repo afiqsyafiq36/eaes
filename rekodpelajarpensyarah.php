@@ -158,71 +158,26 @@ if (!$_SESSION['uname']) {
                   <h3 class="box-title">Senarai Maklumat Pelajar</h3>
               </div>
             <div class="box-body">
-                   
-                  
             <div class="box-body table-responsive">
-               
-                   <table id="example1" class="table table-hover table-striped">
-                   <thead>
-                      <tr>
-                        <th>Bil.</th>
-                        <th>Username</th>
-                        <th>Nama Penuh</th>
-                        <th>No Matrik Pelajar</th>
-                        <th>Email</th>
-                        <th>Sesi Pengajian</th>
-                        <th>Status</th>
-                      </tr>
-                    </thead>
-                    <tbody id="myTable">
-    
-
-<?php
-   $no = 1; //untuk bilangan data dalam DB
-   $kpd = mysqli_query($hubung,"SELECT * FROM user WHERE level = '1'");
-   $jum = mysqli_num_rows($kpd);
-while($dataUser = mysqli_fetch_array($kpd)) {
-     
-
-?>
+              <table id="example1" class="table table-hover table-striped">
+               <thead>
+                  <tr>
+                    <th>Bil.</th>
+                    <th>Username</th>
+                    <th>Nama Penuh</th>
+                    <th>No Matrik Pelajar</th>
+                    <th>Email</th>
+                    <th>Sesi Pengajian</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="myTable1">
                     
-                      <tr>
-                        <th><center><?php echo $no; ?></center></th>
-                        <td><?php echo $dataUser['username']; ?></td>
-                        <td><?php echo $dataUser['fullname']; ?></td>
-                        <td><?php echo $dataUser['nomatrik']; ?></td>
-                        <td><?php echo $dataUser['email']; ?></td>
-                        <td><?php echo $dataUser['sesi']; ?></td>
-                        <td>
-                          <?php 
-                             if ($dataUser['status'] == '1' ){
-                                echo "<i class=\"fa fa-circle text-success\"></i> Online"; 
-                             }
-                             elseif ($dataUser['status'] == '2' ) {
-                                echo "<i class=\"fa fa-circle text-red\"></i> Offline"; 
-                             }
-                             else {
-                                echo "<i class=\"fa fa-star\"></i> New User";
-                             }
-                          ?>
-                        </td>
-                        
-
-                     </tr>
-                    
-<?php
-$no++;
-}
-?>
-                    <tr>
-                    	<td colspan="7">Jumlah pelajar : <?php echo $jum; ?> orang</td>
-                    </tr>
-                   </tbody>
-                  </table>
-  <!--habis content-->
-
-
-            </div><!--box body-->
+                </tbody>
+              </table>
+             <!--habis content-->
+            </div>
+           <!--box body-->
           </div>
          <!--/div box info-->
 
@@ -477,16 +432,39 @@ $no++;
 </div>
 <!-- ./wrapper -->
 <?php include "importfungsi.php"; ?>
-
+<?php include "importjs.php"; ?>
 <!--search function-->
 <script>
 $(document).ready(function(){
+
+  //fuungsi search
   $("#myInput").on("keyup", function() {
     var value = $(this).val().toLowerCase();
     $("#myTable tr").filter(function() {
       $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
     });
   });
+
+
+  // script for realtime user online status
+  fetch_user_data();
+
+  setInterval(function(){
+    // update_last_activity();
+    fetch_user_data();
+  }, 1000);
+
+  function fetch_user_data()
+  {
+    $.ajax({
+      url: "fetch_pelajar.php",
+      method: "POST",
+      success: function(data){
+        $('#myTable1').html(data);
+      }
+    });
+  }
+
 });
 </script>
 

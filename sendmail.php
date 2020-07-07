@@ -20,7 +20,7 @@ $email= $row['email'];
 //Block 7
 $msg= "Dear $name,\n$user_email is requesting to $subject";
 //perlu configure smtp jikalau nk berfungsi
-ini_set('SMTP','myserver');
+ini_set('SMTP','smtp.mailspons.com');
 ini_set('smtp_port',25);
 mail($user_email, $subject, $msg, 'From:' . $user_email);
 echo 'Email sent to: ' . $email. '<br>';

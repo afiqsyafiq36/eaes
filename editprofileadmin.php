@@ -318,14 +318,14 @@ $kursus = mysqli_num_rows($ag3);
                   <div class="form-group">
                     <label for="inputPassword" class="col-sm-2 control-label">New Password</label>
                     <div class="col-sm-10">
-                      <input type="password" name="npw" class="form-control" id="inputPassword" placeholder="New Password.." required>
+                      <input type="password" name="npw" class="form-control" id="inputPassword1" placeholder="New Password.." required>
                     </div>
                   </div>
 
                   <div class="form-group">
                     <label for="inputPassword" class="col-sm-2 control-label">Confirm Password</label>
                     <div class="col-sm-10">
-                      <input type="password" name="cpw" class="form-control" id="inputPassword" placeholder="Retype your password.." required>
+                      <input type="password" name="cpw" class="form-control" id="inputPassword2" placeholder="Retype your password.." required>
                     </div>
                   </div>
 

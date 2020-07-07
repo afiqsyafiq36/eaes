@@ -378,6 +378,7 @@ $no++;
 <!-- ./wrapper -->
 
 <?php include "importfungsi.php"; ?>
+<?php include "importjs.php"; ?>
  <!--script untuk yes or no box-->
 <script>
                             $(document).on('click', ':not(form)[data-confirm]', function(e){

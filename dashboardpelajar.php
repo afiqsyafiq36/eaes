@@ -394,6 +394,7 @@ $totalOnlinePen = mysqli_num_rows($kira2Online);
 <!-- ./wrapper -->
 
 <?php include "importfungsi.php"; ?>
+<?php include "importjs.php"; ?>
 <script>
   $(function () {
     "use strict";
@@ -413,6 +414,7 @@ $totalOnlinePen = mysqli_num_rows($kira2Online);
     });
     
   });
+
 </script>
 
 </body>

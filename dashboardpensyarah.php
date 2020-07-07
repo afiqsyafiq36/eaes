@@ -14,6 +14,8 @@ $id = $_SESSION['id'];
 $lapo = mysqli_query($hubung,"SELECT * FROM user WHERE id = '$id'");
 
 $lapoA = mysqli_fetch_array($lapo);
+
+//user online/offline
 $online = mysqli_query($hubung,"UPDATE user SET status = '1' WHERE id = '$id' ");
 
 //fungsi Ent/ext
@@ -354,6 +356,7 @@ $totalStudent = mysqli_num_rows($userB);
 <!-- ./wrapper -->
 
 <?php include "importfungsi.php"; ?>
+<?php include "importjs.php"; ?>
 <script>
   $(function () {
     "use strict";
@@ -373,6 +376,7 @@ $totalStudent = mysqli_num_rows($userB);
     });
     
   });
+
 </script>
 
 

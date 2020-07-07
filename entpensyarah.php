@@ -1519,7 +1519,7 @@ window.onafterprint = function() {
     window.location.reload(true);
 };
 </script>
-
+<?php include "importjs.php"; ?>
 
 </body>
 </html>

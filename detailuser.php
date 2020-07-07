@@ -200,166 +200,25 @@ if (!$_SESSION['uname']) {
 
             <div class="box-body table-responsive">
                
-                   <table id="example1" class="table table-hover table-striped">
-                   <thead>
-                      <tr>
-                        <th>Bil.</th>
-                        <th>Username</th>
-                        <th>Nama Penuh</th>
-                        <th>No Matrik</th>
-                        <th>Email</th>
-                        <th>Sesi Pengajian</th>
-                        <th>Kategori</th>
-                        <th>Status</th>
-                        <th>Tindakan</th>
-                      </tr>
+                  <table id="example1" class="table table-hover table-striped">
+                    <thead>
+                        <tr>
+                          <th>Bil.</th>
+                          <th>Username</th>
+                          <th>Nama Penuh</th>
+                          <th>No Matrik</th>
+                          <th>Email</th>
+                          <th>Sesi Pengajian</th>
+                          <th>Kategori</th>
+                          <th>Status</th>
+                          <th>Tindakan</th>
+                        </tr>
                     </thead>
                     <tbody id="myTable">
-    
-
-<?php
-   $no = 1; //untuk bilangan data dalam DB
-   $kpd = mysqli_query($hubung,"SELECT * FROM user");
-
-while($dataUser = mysqli_fetch_array($kpd)) {
-     
-
-?>
-                    
-                      <tr>
-                        <th><center><?php echo $no; ?></center></th>
-                        <td><?php echo $dataUser['username']; ?></td>
-                        <td><?php echo $dataUser['fullname']; ?></td>
-                        <td><?php echo $dataUser['nomatrik']; ?></td>
-                        <td><?php echo $dataUser['email']; ?></td>
-                        <td><?php echo $dataUser['sesi']; ?></td>
-                        <td>
-                          <?php
-                             if ($dataUser['level'] == '1') {
-                               echo $kategori="Pelajar";
-                             }
-                             else {
-                               echo $kategori="Pensyarah";
-                             }
-                          ?>
-                        </td>
-                        <td>
-                          <?php 
-                             if ($dataUser['status'] == '1' ){
-                                echo "<i class=\"fa fa-circle text-success\"></i> Online"; 
-                             }
-                             elseif ($dataUser['status'] == '2' ) {
-                                echo "<i class=\"fa fa-circle text-red\"></i> Offline"; 
-                             }
-                             else {
-                                echo "<i class=\"fa fa-star\"></i> New User";
-                             }
-                          ?>
-                        </td>
-                        <td>
-                          <a class="btn btn-sm btn-info" title="Edit" data-toggle="modal" data-target="#myModal<?php echo $dataUser['id']; ?>"><i class="fa fa-pencil"></i>
-                          </a>
-     <!--modal start-->
-        <div class="modal fade" id="myModal<?php echo $dataUser['id']; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-          <div class="modal-dialog">
-            <div class="modal-content">
-                  <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title">Kemaskini Maklumat Pengguna</h4>
-                  </div>
-                    <div class="modal-body">
-                      <p>
-                        <fieldset> 
-                          <!--js id_edit
-                          <script>
-                            $('#myModal').on('show.bs.modal', function (event) {
-                            let id_edit = $(event.relatedTarget).data('id_edit') 
-                            $(this).find('.modal-body input').val(id_edit)
-                          })
-                          </script>
-                          -->
-                          
-                          <form action="simpaneditadmin2.php" method="post">
-                          <?php  
-                                   
-                                   $papa = $dataUser['id'];
-                                    //$pat = "<script>var st= 'id_edit'</script>";
-                                    $meka = mysqli_query($hubung,"SELECT * FROM user WHERE id = '$papa'");
-                                    while($kpdCourse = mysqli_fetch_array($meka) ) {
-
-                                      $fnameUser = $kpdCourse['fullname'];
-                                      $matrikUser = $kpdCourse['nomatrik'];
-                                      $emailUser = $kpdCourse['email'];
-                                      $sesiUser = $kpdCourse['sesi'];
-                                      
-                                    }
-                          ?>
-                           
-                              <input type="hidden" name="papa2" value="<?php echo $papa; ?>">
-
-                           <!--mula form-->
-
-                        <div class="form-group">
-                          <label class="control-label">Nama Penuh</label>
-                          <input type="text" name="fname" class="form-control" value="<?php echo $fnameUser; ?>" required>
-                        </div>
-                        
-                        <div class="form-group">
-                          <label class="control-label">Nombor Matrik <small>tanpa (-)</small></label>
-                          <input type="text" name="matrik" class="form-control" value="<?php echo $matrikUser; ?>" required>
-                        </div>
-
-                        <div class="form-group">
-                          <label class="control-label">Email</label>
-                          <input type="email" name="email" class="form-control" value="<?php echo $emailUser; ?>" required>
-                        </div>
-
-                        <!--dropdown menu-->
-                        <div class="form-group filled">
-                          <label class="control-label">Sesi Pengajian</label>
-                            <select id="Sesi" class="form-control" name="sesi">
-
-                                    <option value="<?php echo $sesiUser; ?>"><?php echo $sesiUser; ?> <small>(updated)</small></option>
-                                    <option value="1/<?php echo date('Y'); ?>">1/<?php echo date('Y'); ?></option>
-                                    <option value="2/<?php echo date('Y'); ?>">2/<?php echo date('Y'); ?></option>
-                               </select>
-                        </div>
-
-                      </p>
-
-                     <!--pembahagi 
-                     <hr>
-                   -->
-                          
-                        
-                    </div><!--modal body-->
-
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" data="Simpan Kemaskini?">Save changes</button>
-                  </div>
-                </form>
-                </fieldset>
-            </div><!-- /.modal-content -->
-          </div><!-- /.modal-dialog -->
-        </div> <!--modal end-->
-
-                    &nbsp|&nbsp
-                    <a type="submit" data-confirm="Reset katalaluan pengguna?" title="Reset" class="btn btn-sm btn-warning" href="resetuser.php?id_reset=<?php echo $dataUser['id']; ?>"><i class="fa fa-undo"></i></a>
-                    &nbsp|&nbsp
-                    <a type="submit" data-confirm="Adakah anda betul-betul pasti?" title="Delete" class="btn btn-sm btn-danger" href="deleteuser.php?id_del=<?php echo $dataUser['id']; ?>"><i class="fa fa-trash-o"></i></a>
-                  </td>
-
-                      </tr>
-                    
-<?php
-$no++;
-}
-?>
-                   </tbody>
+                      <?php // Ajax here ?>
+                    </tbody>
                   </table>
-
-
+            
             </div><!--/box body-->
 
           </div><!--/box-->
@@ -407,25 +266,47 @@ $no++;
 <?php include "importfungsi.php"; ?>
 <!--search function-->
 <script>
+
 $(document).ready(function(){
+
+  //script for search data function
   $("#myInput").on("keyup", function() {
     var value = $(this).val().toLowerCase();
     $("#myTable tr").filter(function() {
       $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
     });
   });
-});
-</script>
 
-<!-- script untuk confirm action-->
-<script>
-                            $(document).on('click', ':not(form)[data-confirm]', function(e){
+  // script for realtime user online status
+  fetch_user();
+
+  setInterval(function(){
+    // update_last_activity();
+    fetch_user();
+  }, 1000);
+
+  function fetch_user()
+  {
+    $.ajax({
+      url: "fetch_user.php",
+      method: "POST",
+      success: function(data){
+        $('#myTable').html(data);
+      }
+    });
+  }
+
+});
+
+//script for confirm action
+$(document).on('click', ':not(form)[data-confirm]', function(e){
                               if(!confirm($(this).data('confirm'))){
                                 e.stopImmediatePropagation();
                                 e.preventDefault();
                               }
-                          });
-</script> 
+                          });             
+</script>
+
 
 </body>
 </html>
