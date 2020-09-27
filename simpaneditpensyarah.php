@@ -2,6 +2,8 @@
 include "sambung.php";
 
 	$old_password = $_POST['opw'];
+	$confirm_password = $_POST['cpw'];
+	
 	$namapenuh = $_POST['fname'];
 	$nomatrik = $_POST['matrik'];
 	$email = $_POST['email'];
@@ -21,12 +23,12 @@ include "sambung.php";
 		$added_activity = mysqli_query($hubung,$activity);
 
 		echo "<script>alert('User detail updated!');
-			window.location = 'profilepelajar.php'</script>";
+			window.location = 'profilepensyarah.php'</script>";
 	}
 	else
 	{
 		echo "<script>alert('Please make sure to using the right password');
-		window.location = 'profilepelajar.php'</script>";
+		window.location = 'profilepensyarah.php'</script>";
 	}
 
 ?>
