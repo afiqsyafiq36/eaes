@@ -1,5 +1,8 @@
 <?php
 include "sambung.php";
+session_start();
+$_SESSION['status'] = "Pendaftaran pelajar baru berjaya ditambah!";
+$_SESSION['status_code'] = "success";
 
 if(isset($_POST['fname'])) {
 
@@ -21,7 +24,7 @@ if(isset($_POST['fname'])) {
      $hasil = mysqli_query($hubung,$tambah);
      $added_activity = mysqli_query($hubung,$activity);
 
-     echo "<script>alert('Pelajar berjaya ditambah');
+     echo "<script>
         window.location='addPelajar.php'</script>";
 
 }
