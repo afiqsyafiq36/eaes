@@ -41,4 +41,25 @@
 <!-- ChartJS -->
 <script src="./adminlte/bower_components/chart.js/Chart.js"></script>
 <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+<!--TimeAgo-->
 <script src="./js/jquery.timeago.js" type="text/javascript"></script>
+<!--Sweet Alert-->
+<script src="./js/sweetalert.min.js"></script>
+
+<?php
+  if(isset($_SESSION['status']) && $_SESSION['status'] != '')
+  {
+?>
+    <script>
+      swal({
+        title: "<?php echo $_SESSION['status']; ?>",
+        // text: "Data berjayadipadam",
+        icon: "<?php echo $_SESSION['status_code']; ?>",
+      });
+    </script>
+<?php
+    unset($_SESSION['status']);
+  }
+?>
+
+  

@@ -1,6 +1,8 @@
 <?php
 include "sambung.php";
-
+session_start();
+$_SESSION['status'] = "Maklumat kursus telah berjaya dikemaskini!";
+$_SESSION['status_code'] = "success";
     //update kursus
 
 	$idpat = $_POST['idpat'];
@@ -28,7 +30,7 @@ include "sambung.php";
 		"UPDATE kursus SET kodkursus = '$kkursus',namakursus = '$nkursus',semester = '$sem',keterangan = '$detail',CLO1 = '$cl1',CLO2 = '$cl2',CLO3 = '$cl3',C1S1 = '$c1s1',C1S2 = '$c1s2',C1S3 = '$c1s3',C2S1 = '$c2s1',C2S2 = '$c2s2',C2S3 = '$c2s3',C3S1 = '$c3s1',C3S2 = '$c3s2',C3S3 = '$c3s3'
 		 WHERE idkursus = '$idpat' ");
 
-	echo "<script>alert('Maklumat kursus telah berjaya dikemaskini');
+	echo "<script>
 	      window.location = 'detailcourse.php'</script>";
 
 
