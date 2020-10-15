@@ -1,5 +1,6 @@
 <?php
 include "sambung.php";
+session_start();
 
 	$old_password = $_POST['opw'];
 	// $new_password = $_POST['npw'];
@@ -16,12 +17,18 @@ include "sambung.php";
 		$password_hash = password_hash($confirm_password, PASSWORD_DEFAULT);
 		$kemaskini = mysqli_query($hubung, "UPDATE admin SET password = '$password_hash',email = '$email',notel = '$notel' ");
 
-		echo "<script>alert('User detail updated!');
+		$_SESSION['status'] = "Maklumat anda telah berjaya dikemaskini!";
+		$_SESSION['status_code'] = "success";
+
+		echo "<script>
 			window.location = 'editprofileadmin.php'</script>";
 	}
 	else
 	{
-		echo "<script>alert('Please check your password credentials');
+		$_SESSION['status'] = "Maklumat tidak berjaya dikemaskini! Sila cuba semula";
+		$_SESSION['status_code'] = "error";
+
+		echo "<script>
 		window.location = 'editprofileadmin.php'</script>";
 	}
 
