@@ -49,9 +49,9 @@ while($dataUser = mysqli_fetch_array($kpd)) {
                         <td>
                             <a class="btn btn-sm btn-info" title="Edit" data-toggle="modal" id="btnEdit" href="edituser.php?id_edit=<?php echo $dataUser['id']; ?>"><i class="fa fa-pencil"></i></a>
                             &nbsp|&nbsp
-                            <a type="submit" data-confirm="Reset katalaluan pengguna?" title="Reset" class="btn btn-sm btn-warning" href="resetuser.php?id_reset=<?php echo $dataUser['id']; ?>"><i class="fa fa-undo"></i></a>
+                            <button type="submit" id="resetBtn" title="Reset" class="btn btn-sm btn-warning" value="<?php echo $dataUser['id']; ?>"><i class="fa fa-undo"></i></button>
                             &nbsp|&nbsp
-                            <a type="submit" data-confirm="Adakah anda betul-betul pasti?" title="Delete" class="btn btn-sm btn-danger" href="deleteuser.php?id_del=<?php echo $dataUser['id']; ?>"><i class="fa fa-trash-o"></i></a>
+                            <button type="submit" id="deleteBtn" title="Delete" class="btn btn-sm btn-danger" value="<?php echo $dataUser['id']; ?>"><i class="fa fa-trash-o"></i></button>
                         </td>
                       </tr>
 <?php

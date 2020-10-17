@@ -226,7 +226,7 @@ while($info = mysqli_fetch_array($ent)) {
                     <td><?php echo $info['kodkursus']; ?></td>
                     <td><?php echo $info['fullname']; ?></td>
                     <td><?php echo $info['ent_tarikh']; ?></td>
-                    <td><a type="submit" data-confirm="Data yang dipadam tidak akan kembali!" class="btn btn-sm btn-danger" href="deletesurvey1.php?id_delete=<?php echo $info['idEnt']; ?>"><i class="fa fa-trash-o"></i></a></td>
+                    <td><button type="submit" id="deleteBtn" class="btn btn-sm btn-danger" value="<?php echo $info['idEnt']; ?>"><i class="fa fa-trash-o"></i></button></td>
                   </tr>
 <?php
 $no++;
@@ -343,12 +343,35 @@ $(document).ready(function(){
 </script>
 <!-- script untuk confirm action-->
 <script>
-                            $(document).on('click', ':not(form)[data-confirm]', function(e){
-                              if(!confirm($(this).data('confirm'))){
-                                e.stopImmediatePropagation();
-                                e.preventDefault();
-                              }
-                          });
+                          //   $(document).on('click', ':not(form)[data-confirm]', function(e){
+                          //     if(!confirm($(this).data('confirm'))){
+                          //       e.stopImmediatePropagation();
+                          //       e.preventDefault();
+                          //     }
+                          // });
+  
+    $(document).on('click', '#deleteBtn', function(e){
+        
+        // console.log($(this).val());
+        console.log('Butang diklik');
+        e.preventDefault();
+        swal({
+          title: "Adakah anda pasti dengan pilihan ini?",
+          text: "Data yang dipadam tidak akan kembali.",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+          })
+          .then((willDelete) => {
+          if (willDelete) {
+            
+            swal("Permintaan anda sedang diproses.", {
+              icon: "info",
+            });
+            window.location.href = "deletesurvey1.php?id_delete="+$(this).val();
+          } 
+        });
+    });
 </script> 
 
 </body>

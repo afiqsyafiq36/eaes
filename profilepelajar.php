@@ -277,27 +277,27 @@ $no++;
                     <label for="inputName" class="col-sm-2 control-label">Username</label>
 
                     <div class="col-sm-10">
-                      <input disabled="" class="form-control" id="inputName" value="<?php echo $user; ?>" required>
+                      <input disabled="" class="form-control" value="<?php echo $user; ?>" required>
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="inputName" class="col-sm-2 control-label">Nama Penuh</label>
                     <div class="col-sm-10">
-                      <input type="text" name="fname" class="form-control" id="inputName" value="<?php echo $nama; ?>" required>
+                      <input type="text" name="fname" class="form-control" value="<?php echo $nama; ?>" required>
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="inputName" class="col-sm-2 control-label">Nombor Matrik</label>
 
                     <div class="col-sm-10">
-                      <input type="text" name="matrik" class="form-control" id="inputName" value="<?php echo $matrik; ?>" required>
+                      <input type="text" name="matrik" class="form-control" value="<?php echo $matrik; ?>" required>
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="inputEmail" class="col-sm-2 control-label">Email</label>
 
                     <div class="col-sm-10">
-                      <input type="email" name="email" class="form-control" id="inputEmail" value="<?php echo $email; ?>" required>
+                      <input type="email" name="email" class="form-control" value="<?php echo $email; ?>" required>
                     </div>
                   </div>
 
@@ -305,21 +305,21 @@ $no++;
                   <div class="form-group">
                     <label for="inputPassword" class="col-sm-2 control-label">Old Password</label>
                     <div class="col-sm-10">
-                      <input type="password" name="opw" class="form-control" id="inputPassword" placeholder="Recent password" required>
+                      <input type="password" name="opw" class="form-control" placeholder="Recent password" required>
                     </div>
                   </div>
 
                   <div class="form-group">
                     <label for="inputPassword" class="col-sm-2 control-label">New Password</label>
                     <div class="col-sm-10">
-                      <input type="password" name="npw" class="form-control" id="inputPassword" placeholder="New Password.." required>
+                      <input type="password" name="npw" class="form-control" placeholder="New Password.." required>
                     </div>
                   </div>
 
                   <div class="form-group">
                     <label for="inputPassword" class="col-sm-2 control-label">Confirm Password</label>
                     <div class="col-sm-10">
-                      <input type="password" name="cpw" class="form-control" id="inputPassword" placeholder="Retype your password.." required>
+                      <input type="password" name="cpw" class="form-control" placeholder="Retype your password.." required>
                     </div>
                   </div>
 
@@ -381,39 +381,33 @@ $no++;
 <?php include "importjs.php"; ?>
  <!--script untuk yes or no box-->
 <script>
-                            $(document).on('click', ':not(form)[data-confirm]', function(e){
-                              if(!confirm($(this).data('confirm'))){
-                                e.stopImmediatePropagation();
-                                e.preventDefault();
-                              }
-                          });
 //valid password changes
 function valid()
 {
   if(document.chngpwd.opw.value == null)
   {
-    alert("Please fill out your old password");
+    swal({ title: "Warning!", text: "Please fill out your old password", icon: "warning",});
     document.chngpwd.opw.focus();
 
     return false;
   }
   else if(document.chngpwd.npw.value == null)
   {
-    alert("Please fill out your new password");
+    swal({ title: "Warning!", text: "Please fill out your new password", icon: "warning",});
     document.chngpwd.npw.focus();
 
     return false;
   }
   else if(document.chngpwd.cpw.value == null)
   {
-    alert("Please retype your password to confirm a new one");
+    swal({ title: "Warning!", text: "Please retype your password to confirm a new one", icon: "warning",});
     document.chngpwd.cpw.focus();
 
     return false;
   }
   else if(document.chngpwd.npw.value != document.chngpwd.cpw.value)
   {
-    alert("Your new password and confirm password do not match");
+    swal({ title: "Warning!", text: "Your new password and confirm password do not match", icon: "warning",});
     document.chngpwd.cpw.focus();
 
     return false;

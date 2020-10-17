@@ -355,8 +355,7 @@ while($dataGuna = mysqli_fetch_array($kursuskita)) {
         </div> <!--modal end-->
 
                         &nbsp|&nbsp
-						<a type="submit" data-confirm="Adakah anda pasti?" title="Delete" class="btn btn-sm btn-danger" href="deleteadmin.php?id_del=<?php echo $dataGuna['idkursus']; ?>"><i class="fa fa-trash-o"></i>
-						</a>
+                        <button type="submit" id="deleteBtn" class="btn btn-sm btn-danger" value="<?php echo $dataGuna['idkursus']; ?>"><i class="fa fa-trash-o"></i></button>
 					</td>
                 </tr>
 							       
@@ -429,12 +428,28 @@ $(document).ready(function(){
 
 <!-- script untuk confirm action-->
 <script>
-                            $(document).on('click', ':not(form)[data-confirm]', function(e){
-                              if(!confirm($(this).data('confirm'))){
-                                e.stopImmediatePropagation();
-                                e.preventDefault();
-                              }
-                          });
+  $(document).on('click', '#deleteBtn', function(e){
+        
+        // console.log($(this).val());
+        console.log('Butang diklik');
+        e.preventDefault();
+        swal({
+          title: "Adakah anda pasti dengan pilihan ini?",
+          text: "Data yang dipadam tidak akan kembali.",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+          })
+          .then((willDelete) => {
+          if (willDelete) {
+            
+            swal("Permintaan anda sedang diproses.", {
+              icon: "info",
+            });
+            window.location.href = "deleteadmin.php?id_del="+$(this).val();
+          } 
+        });
+  });
 </script> 
 
 </body>

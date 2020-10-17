@@ -1,5 +1,6 @@
 <?php
 include "sambung.php";
+session_start();
 
 	$old_password = $_POST['opw'];
 	$confirm_password = $_POST['cpw'];
@@ -22,13 +23,15 @@ include "sambung.php";
 		$activity = "INSERT INTO activity_history (activity,created_date) VALUES ('Pengguna $namapenuh telah mengemaskini maklumat akaun', NOW())";
 		$added_activity = mysqli_query($hubung,$activity);
 
-		echo "<script>alert('User detail updated!');
-			window.location = 'profilepensyarah.php'</script>";
+		$_SESSION['status'] = "Data anda telah berjaya dikemaskini!";
+		$_SESSION['status_code'] = "success";
+		echo "<script>window.location = 'profilepensyarah.php'</script>";
 	}
 	else
 	{
-		echo "<script>alert('Please make sure to using the right password');
-		window.location = 'profilepensyarah.php'</script>";
+		$_SESSION['status'] = "Maklumat gagal dikemaskini! Sila cuba lagi.";
+		$_SESSION['status_code'] = "error";
+		echo "<script>window.location = 'profilepensyarah.php'</script>";
 	}
 
 ?>

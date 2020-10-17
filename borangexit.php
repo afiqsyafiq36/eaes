@@ -44,18 +44,19 @@ if(isset($_POST['kursus'])) {
             //kursus
             $activity = mysqli_query($hubung,$added_history);
            $hasil = mysqli_query($hubung,$tambah);
+           
+           $_SESSION['status'] = "Tahniah! anda telah melengkapkan Exit Survey ini.";
+           $_SESSION['status_code'] = "success";
 
-           echo "<script>alert('Tahniah anda telah melengkapkan Exit Survey');
-              window.location='borangexit.php'</script>";
       }
 
       elseif ($kursus == $G1 && $nama == $G2) {
-            echo "<script>alert('Anda sudah melengkapkan Exit Survey bagi kursus ini.');
-                window.location='borangexit.php'</script>";
+          $_SESSION['status'] = "Anda telah melengkapkan Exit Survey bagi kursus ini.";
+          $_SESSION['status_code'] = "info";
       }
       else {
-        echo "<script>alert('Ralat. Sila berhubung dengan admin.');
-                window.location='borangexit.php'</script>";
+          $_SESSION['status'] = "Ralat! Sesuatu telah terjadi, sila berhubung dengan admin.";
+          $_SESSION['status_code'] = "error";
       }
       
 }

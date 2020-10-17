@@ -299,12 +299,54 @@ $(document).ready(function(){
 });
 
 //script for confirm action
-$(document).on('click', ':not(form)[data-confirm]', function(e){
-                              if(!confirm($(this).data('confirm'))){
-                                e.stopImmediatePropagation();
-                                e.preventDefault();
-                              }
-                          });             
+
+  //resetbtn
+  $(document).on('click', '#resetBtn', function(e){
+        
+        // console.log($(this).val());
+        console.log('Butang diklik');
+        e.preventDefault();
+        swal({
+          title: "Adakah anda pasti dengan pilihan ini?",
+          text: "Kata laluan pengguna ini akan di set semula.",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+          })
+          .then((willDelete) => {
+          if (willDelete) {
+            
+            swal("Permintaan anda sedang diproses.", {
+              icon: "info",
+            });
+            window.location.href = "resetuser.php?id_reset="+$(this).val();
+          } 
+        });
+  });  
+
+  //deletebtn
+  $(document).on('click', '#deleteBtn', function(e){
+        
+        // console.log($(this).val());
+        console.log('Butang diklik');
+        e.preventDefault();
+        swal({
+          title: "Adakah anda pasti dengan pilihan ini?",
+          text: "Data yang dipadam tidak akan kembali.",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+          })
+          .then((willDelete) => {
+          if (willDelete) {
+            
+            swal("Permintaan anda sedang diproses.", {
+              icon: "info",
+            });
+            window.location.href = "deleteuser.php?id_del="+$(this).val();
+          } 
+        });
+  });             
 </script>
 
 

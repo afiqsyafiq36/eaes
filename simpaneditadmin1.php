@@ -25,7 +25,7 @@ session_start();
 	}
 	else
 	{
-		$_SESSION['status'] = "Maklumat tidak berjaya dikemaskini! Sila cuba semula";
+		$_SESSION['status'] = "Maklumat gagal dikemaskini! Sila cuba lagi.";
 		$_SESSION['status_code'] = "error";
 
 		echo "<script>

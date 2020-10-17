@@ -1,56 +1,42 @@
-
-<?php
-    $page_name = "Index";
-	include "countVisitor.php";
-	$access_number = visitor($page_name);
-?>
-<?php
-date_default_timezone_set('Asia/Kuala_Lumpur');
-
-$script_tz = date_default_timezone_get();
-
-if (strcmp($script_tz, ini_get('date.timezone'))){
-    echo 'Script timezone differs from ini-set timezone.';
-} else {
-    echo 'Script timezone and ini-set timezone match.';
-}
-?>
-<!DOCTYPE html>
 <html>
-<head>
-  <title><?php echo $page_name; ?></title>
-</head>
-<body>
+    <head>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script src="try41.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    </head>
+    <body>
 
-</body>
-<footer>
-  <p>
-<?php
-    echo "You are the", $access_number, " visitor on this site!";
-    $today = date("Y-m-d H:i:s");
-    echo $today; ?>
-    <?php
-    $to = (new DateTime())->setTime(0,0);
-    echo $to->format('Y-m-d h:i:s');
-    ?>
-    <?php echo date("d/m/Y h:i:s A"); ?>
-    <?php
-$str = "An example of a long word is: Supercalifragulistic";
-echo wordwrap($str,15,"<br>\n");
-?>
-</p>
-<p>
-    <?php
+        <div class="container">
 
-// $midnight = mktime(0,0,0,date('m'),date('d'),date('Y'));
-// The above is equivalent to below
-$midnight = mktime(0,0,0);
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModal" aria-hidden="true">
+          <div class="modal-dialog ">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalTitle"></h4>
+              </div>
+              <div class="modal-body">
+                <div class="alert hidden" role="alert" id="modalAlert"></div>
+                <input type="hidden" id="myModalID" name="myModalID" value="" />
+                <p>Modal example.</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" id="myModalButton">Submit</button>
+              </div>
+            </div>
+          </div>
+        </div>
 
-echo date('l jS \of F Y h:i:s A',$midnight)."\n";
-echo date('l jS \of F Y h:i:s A',$midnight+60)."\n"; // One minute
-echo date('l jS \of F Y h:i:s A',$midnight+(60*60))."\n"; // One hour
+            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                <a class="openModalLink" href="/" data-id="1234" data-name="Stackoverflow answer">
+                  <span> Click me to open modal</span>
+                </a>
+            </div>          
+        </div>
 
-?>
-</p>
-</footer>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+    </body>
 </html>
