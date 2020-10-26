@@ -265,7 +265,7 @@ $kursus = mysqli_num_rows($ag3);
               <div class="box-body">
               <blockquote>
                 <p>Admin adalah seorang yang berdedikasi dalam mengekalkan privasi data maklumat pengguna dengan sebaiknya.</p>
-                <small>Muhd Syafiq <cite title="Source Title"><a href="https://www.instagram.com/afiqsyafiq36/">@afiqsyafiq36</a></cite></small>
+                <small>Muhd Syafiq <cite title="Source Title"><a href="https://linktr.ee/afiqsyafiq36">@afiqsyafiq36</a></cite></small>
               </blockquote>
             </div>
             <!-- /.box-body -->
