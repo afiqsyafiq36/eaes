@@ -17,11 +17,32 @@ $cek = mysqli_num_rows($query);
 
 		$data = mysqli_fetch_array($query);
 		$password_hash_db = $data['password'];
+
 		if(password_verify($password, $password_hash_db))
 		{
+			//admin detail
 			$_SESSION['uname'] = $data['username'];
 			$_SESSION['email'] = $data['email'];
 			$_SESSION['id'] = $data['id'];
+
+			if(!empty($_POST['remember'])) 
+			{
+				//setcookie for remember function
+				setcookie("admin_login",$username,time()+ (10 * 365 * 24 * 60 * 60));  
+				setcookie("admin_password",$password,time()+ (10 * 365 * 24 * 60 * 60));
+			}
+			else
+			{
+				//setcookie not checked remember
+				if(isset($_COOKIE["admin_login"])) 
+				{
+					setcookie("admin_login", "");
+				}
+				if (isset($_COOKIE["admin_password"])) {
+					setcookie("admin_password", "");
+				}  
+			}
+
 			header("location:dashboardadmin.php");
 		}
 		else 

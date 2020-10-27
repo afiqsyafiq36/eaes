@@ -34,9 +34,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
   <h2 class="form-heading">user login</h2>
   <div class="app-cam">
     <form action="proseslogin.php" method="post">
-    <input class="input-field" type="text" placeholder="Username" name="uname" required>
-    <input class="input-field" type="password" placeholder="Password" name="pass" required>
-
+    <input class="input-field" type="text" value="<?php if(isset($_COOKIE["user_login"])) { echo $_COOKIE["user_login"]; } ?>" placeholder="Username" name="uname" required>
+    <input class="input-field" type="password" value="<?php if(isset($_COOKIE["user_password"])) { echo $_COOKIE["user_password"]; } ?>" placeholder="Password" name="pass" required>
+      <label>
+        <input type="checkbox" class="form-group" name="remember" <?php if(isset($_COOKIE["user_login"])) { ?> checked <?php } ?>> Remember me
+      </label> 
     <div class="submit"><input type="submit" value="Login"></div>
     
     <ul class="new">

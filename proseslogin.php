@@ -40,6 +40,23 @@ $cek = mysqli_num_rows($query);
 				include "countVisitor.php";
 				$access_number = visitor($page_name);
 
+				if (!empty($_POST['remember'])) 
+				{
+					//setcookie for remember function
+					setcookie("user_login", $username, time() + (10 * 365 * 24 * 60 * 60));
+					setcookie("user_password", $password, time() + (10 * 365 * 24 * 60 * 60));
+				} 
+				else 
+				{
+					//setcookie not checked remember
+					if (isset($_COOKIE["user_login"])) {
+						setcookie("user_login", "");
+					}
+					if (isset($_COOKIE["user_password"])) {
+						setcookie("user_password","");
+					}
+				}
+
 				header("location:dashboardpelajar.php");
 			}
 			elseif ($_SESSION['level'] AND $data['level'] == '2') {
@@ -48,6 +65,23 @@ $cek = mysqli_num_rows($query);
 				$page_name = "Dashboard Pensyarah";
 				include "countVisitor.php";
 				$access_number = visitor($page_name);
+
+				if (!empty($_POST['remember'])) 
+				{
+					//setcookie for remember function
+					setcookie("user_login", $username, time() + (10 * 365 * 24 * 60 * 60));
+					setcookie("user_password", $password, time() + (10 * 365 * 24 * 60 * 60));
+				} 
+				else 
+				{
+					//setcookie not checked remember
+					if (isset($_COOKIE["user_login"])) {
+						setcookie("user_login", "");
+					}
+					if (isset($_COOKIE["user_password"])) {
+						setcookie("user_password","");
+					}
+				}
 
 				header("location:dashboardpensyarah.php");
 			} 
