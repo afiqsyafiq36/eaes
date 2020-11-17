@@ -61,5 +61,7 @@
     unset($_SESSION['status']);
   }
 ?>
-
+<!-- CropperJS -->
+<script src="https://unpkg.com/dropzone"></script>
+<script src="https://unpkg.com/cropperjs"></script>
   

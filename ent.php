@@ -9,6 +9,12 @@ if (!$_SESSION['uname']) {
 	header("location:adminlogin.php");
 }
 
+$admin_id = $_SESSION['id'];
+$query_admin = mysqli_query($hubung,"SELECT * FROM admin WHERE id = '$admin_id'");
+while($detail = mysqli_fetch_array($query_admin) ) {
+  $imgPath = $detail['image'];
+}
+
 $nilai1 = mysqli_query($hubung,"SELECT * FROM kursus WHERE idkursus = '1' ");
 $nilai2 = mysqli_query($hubung,"SELECT * FROM kursus WHERE idkursus = '2' ");
 $nilai3 = mysqli_query($hubung,"SELECT * FROM kursus WHERE idkursus = '3' ");
@@ -92,13 +98,21 @@ $tigabelas = mysqli_fetch_array($nilai5);
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="./images/ipit.png" class="user-image" alt="User Image">
+              <?php if($imgPath != null) { ?>
+                    <img src="<?= $imgPath; ?>" class="user-image" alt="User Image">
+              <?php } else { ?>
+                    <img src="./images/ipit.png" class="user-image" alt="User Image">
+              <?php } ?>
               <span class="hidden-xs"><?php echo $_SESSION['uname']; ?></span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="./images/ipit.png" class="img-circle" alt="User Image">
+                <?php if($imgPath != null) { ?>
+                      <img src="<?= $imgPath ?>" class="img-circle" alt="User Image">
+                <?php } else { ?>
+                      <img src="./images/ipit.png" class="img-circle" alt="User Image">
+                <?php } ?>
 
                 <p>
                   <?php echo $_SESSION['uname']; ?> - System Administrator
@@ -132,7 +146,11 @@ $tigabelas = mysqli_fetch_array($nilai5);
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="./images/ipit.png" class="img-circle" alt="User Image">
+          <?php if($imgPath != null) { ?>
+                <img id="uploaded_image3" src="<?= $imgPath ?>" class="img-circle" alt="User Image">
+          <?php } else { ?>
+                <img id="uploaded_image3" src="./images/ipit.png" class="img-circle" alt="User Image">
+          <?php } ?>
         </div>
         <div class="pull-left info">
           <p><?php echo $_SESSION['uname']; ?></p>

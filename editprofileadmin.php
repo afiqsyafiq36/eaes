@@ -18,6 +18,7 @@ while($editDetail = mysqli_fetch_array($tukar) ) {
   $pass = $editDetail['password'];
   $email = $editDetail['email'];
   $notel = $editDetail['notel'];
+  $imgPath = $editDetail['image'];
 }
 
 
@@ -42,7 +43,8 @@ $kursus = mysqli_num_rows($ag3);
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!--import head-->
   <?php include "importdesign.php"; ?>
-
+  <!-- Image Overlay Icon -->
+  <link rel="stylesheet" href="./style/overlay-image.css">
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -68,14 +70,21 @@ $kursus = mysqli_num_rows($ag3);
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="./images/ipit.png" class="user-image" alt="User Image">
+              <?php if($imgPath != null) { ?>
+                    <img id="uploaded_image1" src="<?= $imgPath; ?>" class="user-image" alt="User Image">
+              <?php } else { ?>
+                    <img id="uploaded_image1" src="./images/ipit.png" class="user-image" alt="User Image">
+              <?php } ?>
               <span class="hidden-xs"><?php echo $_SESSION['uname']; ?></span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="./images/ipit.png" class="img-circle" alt="User Image">
-
+                <?php if($imgPath != null) { ?>
+                      <img id="uploaded_image2" src="<?= $imgPath ?>" class="img-circle" alt="User Image">
+                <?php } else { ?>
+                      <img id="uploaded_image2" src="./images/ipit.png" class="img-circle" alt="User Image">
+                <?php } ?>
                 <p>
                   <?php echo $_SESSION['uname']; ?> - System Administrator
                   <small><?php echo $_SESSION['email']; ?></small>
@@ -108,7 +117,11 @@ $kursus = mysqli_num_rows($ag3);
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="./images/ipit.png" class="img-circle" alt="User Image">
+          <?php if($imgPath != null) { ?>
+                <img id="uploaded_image3" src="<?= $imgPath ?>" class="img-circle" alt="User Image">
+          <?php } else { ?>
+                <img id="uploaded_image3" src="./images/ipit.png" class="img-circle" alt="User Image">
+          <?php } ?>
         </div>
         <div class="pull-left info">
           <p><?php echo $_SESSION['uname']; ?></p>
@@ -215,8 +228,19 @@ $kursus = mysqli_num_rows($ag3);
           <!-- Profile Image -->
           <div class="box box-primary">
             <div class="box-body box-profile">
-              <img class="profile-user-img img-responsive img-circle" src="./images/ipit.png" alt="Admin profile picture">
-
+              <div class="container">
+                <form method="POST">
+                  <?php if($imgPath != null) { ?>
+                        <img id="uploaded_image4" src="<?= $imgPath ?>" class="profile-user-img img-responsive img-circle" title="Admin Profile">
+                  <?php } else { ?>
+                        <img id="uploaded_image4" src="./images/ipit.png" class="profile-user-img img-responsive img-circle" title="Admin Profile">
+                  <?php } ?>
+                    <label for="upload_image" class="overlay">
+                        <i class="fa fa-camera" title="Admin Profile"></i>
+                    </label>
+                    <input type="file" name="image" class="image" id="upload_image" style="display:none" />
+                </form>
+              </div>
               <h3 class="profile-username text-center"><?php echo $_SESSION['uname']; ?></h3>
 
               <p class="text-muted text-center">System Administrator</p>
@@ -238,6 +262,42 @@ $kursus = mysqli_num_rows($ag3);
             <!-- /.box-body -->
           </div>
           <!-- /.box -->
+
+          <!-- Profile Modal -->
+            <!--modal start-->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">Admin Profile Image</h4>
+                  </div>
+                    <!--modal body-->
+                    <div class="modal-body">
+                      <div class="img-container">
+                          <div class="row">
+                              <div class="col-md-8">
+                                  <img src="" id="sample_image" class="img-responsive" />
+                                  <!-- <img src="./images/pic3.jpg" class="img-responsive" /> -->
+                                  <!-- <img src="./images/160550972716112020.png" class="img-responsive" /> -->
+                              </div>
+                              <div class="col-md-4">
+                                  <div class="preview"></div>
+                              </div>
+                          </div>
+                      </div>
+                    </div>
+                    <!--modal footer-->
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="crop">Save changes</button>
+                  </div>
+                </div>
+                <!-- /.modal-content -->
+              </div>
+              <!-- /.modal-dialog -->
+            </div> 
+            <!--modal end-->
 
           <!-- About Me Box -->
           <div class="box box-primary">
@@ -442,7 +502,91 @@ $kursus = mysqli_num_rows($ag3);
 <script type="text/javascript">
                            
 $(document).ready(function() {
+
+  //prevent user open the contextmenu (inspect elemen but can be open by f12 key)
+  document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+  });
+  
+  //variable
+  var $modal = $('#myModal');
+  var image = document.getElementById('sample_image');
+  var cropper;
+  var uname = '<?= $user ?>';
+
+  $('#upload_image').change(function(event){
+		var files = event.target.files;
+
+		var done = function(url){
+			image.src = url;
+			$modal.modal('show');
+		};
+
+		if(files && files.length > 0)
+		{
+			reader = new FileReader();
+			reader.onload = function(event)
+			{
+				done(reader.result);
+			};
+			reader.readAsDataURL(files[0]);
+		}
+	});
+
+	$modal.on('shown.bs.modal', function() {
+		cropper = new Cropper(image, {
+			aspectRatio: 1,
+			viewMode: 3,
+			preview:'.preview',
+      responsive: true
+		});
+	}).on('hidden.bs.modal', function(){
+		cropper.destroy();
+   		cropper = null;
+	});
+
+	$('#crop').click(function(){
+		canvas = cropper.getCroppedCanvas({
+			width:400,
+			height:400
+		});
+
+		canvas.toBlob(function(blob){
+			url = URL.createObjectURL(blob);
+			var reader = new FileReader();
+			reader.readAsDataURL(blob);
+			reader.onloadend = function(){
+				var base64data = reader.result;
+				$.ajax({
+					url:'uploadprofile.php',
+					method:'POST',
+					data:{image:base64data, username:uname},
+					success:function(data)
+					{
+						$modal.modal('hide');
+						$('#uploaded_image1').attr('src', data);
+            $('#uploaded_image2').attr('src', data);
+            $('#uploaded_image3').attr('src', data);
+            $('#uploaded_image4').attr('src', data);
+
+            //sweetalert
+            swal({
+              title: "Tahniah!",
+              text: "Gambar telah berjaya di muat naik.",
+              icon: "success",
+            });
+					}
+				});
+			};
+		});
+	});
+
+  //modal close
+  $('#close').modal('hide');
+
+  //timeago function
   $("time.timeago").timeago();
+
 });
 
 //valid password changes
