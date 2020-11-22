@@ -14,6 +14,9 @@ $id = $_SESSION['id'];
 $lapo = mysqli_query($hubung,"SELECT * FROM user WHERE id = '$id'");
 
 $lapoA = mysqli_fetch_array($lapo);
+
+//include user query for image path
+include "Quser.php";
 ?>
 
 
@@ -116,13 +119,13 @@ $lapoA = mysqli_fetch_array($lapo);
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="./img/asgp.png" class="user-image" alt="User Image">
+              <img src="<?= $imgPath; ?>" class="user-image" alt="User Image">
               <span class="hidden-xs"><?php echo $_SESSION['fullname']; ?></span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="./img/asgp.png" class="img-circle" alt="User Image">
+                <img src="<?= $imgPath; ?>" class="img-circle" alt="User Image">
 
                 <p>
                   <?php echo $_SESSION['uname']; ?> - Lecturer
@@ -156,7 +159,7 @@ $lapoA = mysqli_fetch_array($lapo);
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="./img/asgp.png" class="img-circle" alt="User Image">
+          <img src="<?= $imgPath; ?>" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
           <p><?php echo wordwrap($_SESSION['fullname'],22,"<br>\n"); ?></p>

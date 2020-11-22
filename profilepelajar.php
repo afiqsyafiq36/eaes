@@ -39,6 +39,8 @@ $gapo = mysqli_query($hubung,"SELECT * FROM user WHERE id = '$id'");
 $gapoA = mysqli_fetch_array($gapo);
 $sesiP = $gapoA['sesi'];
 
+//include user query for image path
+include "Quser.php";
 ?>
 
 
@@ -50,6 +52,8 @@ $sesiP = $gapoA['sesi'];
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Profile Pelajar</title>
   <?php include "importdesign.php"; ?>
+  <!-- Image Overlay Icon -->
+  <link rel="stylesheet" href="./style/overlay-image.css">
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -75,13 +79,13 @@ $sesiP = $gapoA['sesi'];
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="./img/asg.png" class="user-image" alt="User Image">
+              <img id="uploaded_image1" src="<?= $imgPath; ?>" class="user-image" alt="User Image">
               <span class="hidden-xs"><?php echo $_SESSION['fullname']; ?></span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="./img/asg.png" class="img-circle" alt="User Image">
+                <img id="uploaded_image2" src="<?= $imgPath; ?>" class="img-circle" alt="User Image">
 
                 <p>
                   <?php echo $_SESSION['uname']; ?> - Student
@@ -115,7 +119,7 @@ $sesiP = $gapoA['sesi'];
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="./img/asg.png" class="img-circle" alt="User Image">
+          <img id="uploaded_image3" src="<?= $imgPath; ?>" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
           <p><?php echo wordwrap($_SESSION['fullname'],22,"<br>\n"); ?></p>
@@ -199,7 +203,15 @@ $sesiP = $gapoA['sesi'];
           <!-- Profile Image -->
           <div class="box box-primary">
             <div class="box-body box-profile">
-              <img class="profile-user-img img-responsive img-circle" src="./images/ipit.png" alt="Admin profile picture">
+              <div class="container">
+                <form method="POST">
+                    <img id="uploaded_image4" src="<?= $imgPath ?>" class="profile-user-img img-responsive img-circle" title="User Profile">
+                    <label for="upload_image" class="overlay">
+                        <i class="fa fa-camera" title="User Profile"></i>
+                    </label>
+                    <input type="file" name="image" class="image" id="upload_image" style="display:none" />
+                </form>
+              </div>
 
               <h3 class="profile-username text-center"><?php echo $_SESSION['uname']; ?></h3>
 
@@ -219,6 +231,40 @@ $sesiP = $gapoA['sesi'];
             <!-- /.box-body -->
           </div>
           <!-- /.box -->
+
+          <!-- Profile Modal -->
+            <!--modal start-->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">User Profile Image</h4>
+                  </div>
+                    <!--modal body-->
+                    <div class="modal-body">
+                      <div class="img-container">
+                          <div class="row">
+                              <div class="col-md-8">
+                                  <img src="" id="sample_image" class="img-responsive" />
+                              </div>
+                              <div class="col-md-4">
+                                  <div class="preview"></div>
+                              </div>
+                          </div>
+                      </div>
+                    </div>
+                    <!--modal footer-->
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="crop">Save changes</button>
+                  </div>
+                </div>
+                <!-- /.modal-content -->
+              </div>
+              <!-- /.modal-dialog -->
+            </div> 
+            <!--modal end-->
 
           <!-- About Me Box -->
           <div class="box box-primary">
@@ -252,7 +298,7 @@ while($dataCourse = mysqli_fetch_array($kpd)) {
 
 ?>
 
-              <p class="text-muted"><li><?php echo $kodkursus.''.$namakursus ?></li></p>
+              <p class="text-muted"><li><?php echo $kodkursus.''.$namakursus; ?></li></p>
 <?php
 $no++;
 }
@@ -380,7 +426,88 @@ $no++;
 <?php include "importfungsi.php"; ?>
 <?php include "importjs.php"; ?>
  <!--script untuk yes or no box-->
-<script>
+<script type="text/javascript">
+$(document).ready(function() {
+
+//variable
+var $modal = $('#myModal');
+var image = document.getElementById('sample_image');
+var cropper;
+var uname = '<?= $user ?>';
+var id = '<?= $id ?>';
+
+$('#upload_image').change(function(event){
+  var files = event.target.files;
+
+  var done = function(url){
+    image.src = url;
+    $modal.modal('show');
+  };
+
+  if(files && files.length > 0)
+  {
+    reader = new FileReader();
+    reader.onload = function(event)
+    {
+      done(reader.result);
+    };
+    reader.readAsDataURL(files[0]);
+  }
+});
+
+$modal.on('shown.bs.modal', function() {
+  cropper = new Cropper(image, {
+    aspectRatio: 1,
+    viewMode: 3,
+    preview:'.preview',
+    responsive: true
+  });
+}).on('hidden.bs.modal', function(){
+  cropper.destroy();
+     cropper = null;
+});
+
+$('#crop').click(function(){
+  canvas = cropper.getCroppedCanvas({
+    width:400,
+    height:400
+  });
+
+  canvas.toBlob(function(blob){
+    url = URL.createObjectURL(blob);
+    var reader = new FileReader();
+    reader.readAsDataURL(blob);
+    reader.onloadend = function(){
+      var base64data = reader.result;
+      $.ajax({
+        url:'uploadprofileuser.php',
+        method:'POST',
+        data:{image:base64data, username:uname, id_user:id},
+        success:function(data)
+        {
+          $modal.modal('hide');
+          $('#uploaded_image1').attr('src', data);
+          $('#uploaded_image2').attr('src', data);
+          $('#uploaded_image3').attr('src', data);
+          $('#uploaded_image4').attr('src', data);
+
+          //sweetalert
+          swal({
+            title: "Tahniah!",
+            text: "Gambar telah berjaya di muat naik.",
+            icon: "success",
+          });
+        }
+      });
+    };
+  });
+});
+
+//modal close
+$('#close').modal('hide');
+
+});
+
 //valid password changes
 function valid()
 {
