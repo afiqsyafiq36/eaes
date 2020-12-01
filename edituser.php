@@ -86,7 +86,7 @@ $id = $_GET['id_edit'];
 <script>
   $(document).ready(function(){
 
-    
+    Pace.restart();
     // $('#btnEdit').on('click', function(){
       var id = $(this).val();
       console.log('here');

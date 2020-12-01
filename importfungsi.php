@@ -64,4 +64,6 @@
 <!-- CropperJS -->
 <script src="https://unpkg.com/dropzone"></script>
 <script src="https://unpkg.com/cropperjs"></script>
+<!-- Pace -->
+<script src="./adminlte/bower_components/PACE/pace.min.js"></script>
   

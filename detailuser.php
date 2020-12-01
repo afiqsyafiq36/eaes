@@ -321,6 +321,7 @@ $(document).ready(function(){
   $(document).on('click', '#resetBtn', function(e){
         
         // console.log($(this).val());
+        Pace.restart();
         console.log('Butang diklik');
         e.preventDefault();
         swal({
@@ -345,6 +346,7 @@ $(document).ready(function(){
   $(document).on('click', '#deleteBtn', function(e){
         
         // console.log($(this).val());
+        Pace.restart(); 
         console.log('Butang diklik');
         e.preventDefault();
         swal({

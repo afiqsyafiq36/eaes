@@ -414,7 +414,7 @@ $kursus = mysqli_num_rows($ag3);
                         <span class="username">
                           <a href="#">System bot</a>
                         </span>
-                    <span class="description"><time class="timeago" datetime="<?= $date_display; ?>"></time></span>
+                    <span class="description">System information - <time class="timeago" datetime="<?= $date_display; ?>"></time></span>
                     <!-- <time class="timeago" datetime="2008-07-17T09:24:17Z">July 17, 2008</time> -->
                   </div>
                   <!-- /.user-block -->
@@ -434,7 +434,7 @@ $kursus = mysqli_num_rows($ag3);
                         <span class="username">
                           <a href="#">System bot</a>
                         </span>
-                    <span class="description">today</span>
+                    <span class="description">System information - today</span>
                     <!-- <time class="timeago" datetime="2008-07-17T09:24:17Z">July 17, 2008</time> -->
                   </div>
                   <!-- /.user-block -->
