@@ -5,7 +5,7 @@
 Pembangunan Sistem Entrance and Exit survey bagi kursus 2 Diploma IPD adalah bertujuan bagi memenuhi keperluan Diploma Vokasional Malaysia bagi kursus Projek Tahun Akhir. Kursus ini dibawah program Teknologi Sistem Pengurusan Pangkalan Data Dan Aplikasi Web
 
 Rujukan :
-http://eaes.kpdkvdsazi.net
+[http://eaes.kpdkvdsazi.net](https://eaes.wuaze.com/eaes/index.php)
 
 ========================================
 
