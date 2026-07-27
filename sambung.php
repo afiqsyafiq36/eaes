@@ -1,9 +1,10 @@
 <?php
 
-$host = "localhost";
-$user = "root";
-$password = "mysql";
-$dbname = "eaes_db";
+$host = "sql211.infinityfree.com";
+$user = "if0_42490017";
+$password = "ecqUY2eUR4DiNf0";
+$dbname = "if0_42490017_eaes_db";
+
 
 $hubung = mysqli_connect($host,$user,$password,$dbname);
 
