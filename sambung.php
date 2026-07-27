@@ -73,5 +73,28 @@ if (mysqli_connect_errno()) {
 	$env_label = $is_local ? 'LOCAL' : 'PRODUCTION';
 	// Show environment in message to make debugging easier (local vs live)
 	echo 'Sambungan data tidak berjaya [' . $env_label . ']: ' . mysqli_connect_error();
+} elseif ($hubung) {
+	// Local dumps often miss optional tables used by profile / survey history.
+	// CREATE IF NOT EXISTS keeps production untouched when the table already exists.
+	@mysqli_query(
+		$hubung,
+		"CREATE TABLE IF NOT EXISTS activity_history (
+			id INT AUTO_INCREMENT PRIMARY KEY,
+			activity TEXT NOT NULL,
+			created_date DATETIME NOT NULL,
+			INDEX idx_created_date (created_date)
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4"
+	);
+
+	// Online status column used by fetch_user.php / update_last_activity.php
+	$col_check = @mysqli_query($hubung, "SHOW COLUMNS FROM `user` LIKE 'last_activity'");
+	if ($col_check && mysqli_num_rows($col_check) === 0) {
+		@mysqli_query($hubung, "ALTER TABLE `user` ADD COLUMN last_activity DATETIME NULL DEFAULT NULL");
+	}
+
+	$admin_img = @mysqli_query($hubung, "SHOW COLUMNS FROM `admin` LIKE 'image'");
+	if ($admin_img && mysqli_num_rows($admin_img) === 0) {
+		@mysqli_query($hubung, "ALTER TABLE `admin` ADD COLUMN image VARCHAR(255) NULL DEFAULT NULL");
+	}
 }
 ?>

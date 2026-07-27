@@ -228,20 +228,22 @@ $kursus = mysqli_num_rows($ag3);
           <!-- Profile Image -->
           <div class="box box-primary">
             <div class="box-body box-profile">
-              <div class="container">
-                <form method="POST">
-                  <?php if($imgPath != null) { ?>
-                        <img id="uploaded_image4" src="<?= $imgPath ?>" class="profile-user-img img-responsive img-circle" title="Admin Profile">
-                  <?php } else { ?>
-                        <img id="uploaded_image4" src="./images/ipit.png" class="profile-user-img img-responsive img-circle" title="Admin Profile">
-                  <?php } ?>
-                    <label for="upload_image" class="overlay">
-                        <i class="fa fa-camera" title="Admin Profile"></i>
+              <div class="container text-center">
+                <form method="POST" onsubmit="return false;">
+                  <div class="profile-avatar-wrap">
+                    <?php if($imgPath != null) { ?>
+                          <img id="uploaded_image4" src="<?= htmlspecialchars($imgPath, ENT_QUOTES, 'UTF-8'); ?>" class="profile-user-img img-responsive img-circle" title="Klik untuk lihat profil" alt="Admin Profile" role="button" tabindex="0" aria-label="Lihat gambar profil">
+                    <?php } else { ?>
+                          <img id="uploaded_image4" src="./images/ipit.png" class="profile-user-img img-responsive img-circle" title="Klik untuk lihat profil" alt="Admin Profile" role="button" tabindex="0" aria-label="Lihat gambar profil">
+                    <?php } ?>
+                    <label for="upload_image" class="camera-badge" title="Tukar gambar profil" aria-label="Tukar gambar profil" tabindex="0">
+                        <i class="fa fa-camera" aria-hidden="true"></i>
                     </label>
-                    <input type="file" name="image" class="image" id="upload_image" style="display:none" />
+                    <input type="file" name="image" class="image" id="upload_image" accept="image/*" style="display:none" />
+                  </div>
                 </form>
               </div>
-              <h3 class="profile-username text-center"><?php echo $_SESSION['uname']; ?></h3>
+              <h3 class="profile-username text-center"><?php echo htmlspecialchars($_SESSION['uname'] ?? '', ENT_QUOTES, 'UTF-8'); ?></h3>
 
               <p class="text-muted text-center">System Administrator</p>
 
@@ -298,6 +300,30 @@ $kursus = mysqli_num_rows($ag3);
               <!-- /.modal-dialog -->
             </div> 
             <!--modal end-->
+
+          <!-- Photocard view modal (klik gambar = lihat; camera = upload) -->
+          <div class="modal fade" id="profileViewModal" tabindex="-1" role="dialog" aria-labelledby="profileViewModalLabel" aria-hidden="true">
+            <div class="modal-dialog photocard-dialog" role="document">
+              <div class="modal-content photocard-content">
+                <div class="modal-header photocard-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Tutup"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="profileViewModalLabel">Kad Profil</h4>
+                </div>
+                <div class="modal-body photocard-body">
+                  <img id="profileViewPhoto" class="photocard-photo" src="./images/ipit.png" alt="Gambar profil">
+                  <h3 class="photocard-name"><?php echo htmlspecialchars($_SESSION['uname'] ?? ($user ?? ''), ENT_QUOTES, 'UTF-8'); ?></h3>
+                  <p class="photocard-role">System Administrator</p>
+                  <p class="photocard-email"><?php echo htmlspecialchars($_SESSION['email'] ?? ($email ?? ''), ENT_QUOTES, 'UTF-8'); ?></p>
+                </div>
+                <div class="modal-footer photocard-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
+                  <button type="button" class="btn btn-primary" id="btnChangeFromCard">
+                    <i class="fa fa-camera"></i> Tukar gambar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
 
           <!-- About Me Box -->
           <div class="box box-primary">
@@ -401,11 +427,12 @@ $kursus = mysqli_num_rows($ag3);
               <div class="active tab-pane" id="profile">
               <?php
                 $query = mysqli_query($hubung,"SELECT * FROM activity_history WHERE DATE(created_date) = CURRENT_DATE() ORDER BY created_date DESC");
-                if(mysqli_num_rows($query) != null) {
+                $activity_count = ($query) ? mysqli_num_rows($query) : 0;
+                if ($activity_count > 0) {
                   while($data = mysqli_fetch_array($query)) {
-                    $activity = $data['activity'];
-                    $date_create = $data['created_date'];
-                    $date_display = date('Y-m-d H:i:s',strtotime($date_create));
+                    $activity = $data['activity'] ?? '';
+                    $date_create = $data['created_date'] ?? '';
+                    $date_display = $date_create !== '' ? date('Y-m-d H:i:s', strtotime($date_create)) : '';
               ?>
                 <!-- Post -->
                 <div class="post">
@@ -414,18 +441,17 @@ $kursus = mysqli_num_rows($ag3);
                         <span class="username">
                           <a href="#">System bot</a>
                         </span>
-                    <span class="description">System information - <time class="timeago" datetime="<?= $date_display; ?>"></time></span>
-                    <!-- <time class="timeago" datetime="2008-07-17T09:24:17Z">July 17, 2008</time> -->
+                    <span class="description">System information - <time class="timeago" datetime="<?= htmlspecialchars($date_display, ENT_QUOTES, 'UTF-8'); ?>"></time></span>
                   </div>
                   <!-- /.user-block -->
                   <p>
-                    <?= $activity ?>
+                    <?= htmlspecialchars($activity, ENT_QUOTES, 'UTF-8'); ?>
                   </p>
                 </div>
                 <!-- /.post -->
               <?php
                   }
-                } elseif(mysqli_num_rows($query) == "") {
+                } else {
               ?>
               <!-- Post -->
               <div class="post">
@@ -435,7 +461,6 @@ $kursus = mysqli_num_rows($ag3);
                           <a href="#">System bot</a>
                         </span>
                     <span class="description">System information - today</span>
-                    <!-- <time class="timeago" datetime="2008-07-17T09:24:17Z">July 17, 2008</time> -->
                   </div>
                   <!-- /.user-block -->
                   <p>
@@ -444,8 +469,6 @@ $kursus = mysqli_num_rows($ag3);
                 </div>
                 <!-- /.post -->
               <?php
-                } else {
-                  echo "Something not right";
                 }
               ?>
                 
@@ -510,9 +533,35 @@ $(document).ready(function() {
   
   //variable
   var $modal = $('#myModal');
+  var $viewModal = $('#profileViewModal');
   var image = document.getElementById('sample_image');
   var cropper;
-  var uname = '<?= $user ?>';
+  var uname = '<?= htmlspecialchars($user ?? '', ENT_QUOTES, 'UTF-8'); ?>';
+
+  // Why separate from crop modal: click photo = view photocard; camera badge = upload
+  function openProfilePhotocard() {
+    var currentSrc = $('#uploaded_image4').attr('src') || './images/ipit.png';
+    $('#profileViewPhoto').attr('src', currentSrc);
+    $viewModal.modal('show');
+  }
+
+  $('#uploaded_image4').on('click', function (e) {
+    e.preventDefault();
+    openProfilePhotocard();
+  }).on('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      openProfilePhotocard();
+    }
+  });
+
+  $('#btnChangeFromCard').on('click', function () {
+    $viewModal.modal('hide');
+    // Open file picker after view modal starts closing
+    setTimeout(function () {
+      $('#upload_image').trigger('click');
+    }, 250);
+  });
 
   $('#upload_image').change(function(event){
 		var files = event.target.files;
@@ -568,6 +617,7 @@ $(document).ready(function() {
             $('#uploaded_image2').attr('src', data);
             $('#uploaded_image3').attr('src', data);
             $('#uploaded_image4').attr('src', data);
+            $('#profileViewPhoto').attr('src', data);
 
             //sweetalert
             swal({
