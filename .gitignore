@@ -1,0 +1,8 @@
+# Local-only overrides (never deploy / never commit secrets)
+sambung.local.php
+smtp_config.php
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
+*.log

@@ -12,7 +12,7 @@ if (!$_SESSION['uname']) {
 $admin_id = $_SESSION['id'];
 $query_admin = mysqli_query($hubung,"SELECT * FROM admin WHERE id = '$admin_id'");
 while($detail = mysqli_fetch_array($query_admin) ) {
-  $imgPath = $detail['image'];
+  $imgPath = $detail['image'] ?? '';
 }
 
 $nilai1 = mysqli_query($hubung,"SELECT * FROM kursus WHERE idkursus = '1' ");
@@ -805,8 +805,7 @@ function showCourse() {
 <script src="./adminlte/bower_components/fastclick/lib/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="./adminlte/dist/js/adminlte.min.js"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="./adminlte/dist/js/pages/dashboard.js"></script>
+<!-- AdminLTE dashboard demo removed (needs #revenue-chart etc. not present on this page) -->
 <!-- AdminLTE for demo purposes -->
 <script src="./adminlte/dist/js/demo.js"></script>
 <!-- ChartJS -->

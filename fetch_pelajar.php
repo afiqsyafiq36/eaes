@@ -14,20 +14,20 @@ session_start();
    $jum = mysqli_num_rows($kpd);
 
 while($dataUser = mysqli_fetch_array($kpd)) {
-    //online status
-    $user_last_activity = $dataUser['last_activity'];
+    // Why ?? '': local DB may not have last_activity column yet (PHP 8+ warning)
+    $user_last_activity = $dataUser['last_activity'] ?? '';
 ?>
                     
                       <tr>
                         <th><center><?php echo $no; ?></center></th>
-                        <td><?php echo $dataUser['username']; ?></td>
-                        <td><?php echo $dataUser['fullname']; ?></td>
-                        <td><?php echo $dataUser['nomatrik']; ?></td>
-                        <td><?php echo $dataUser['email']; ?></td>
-                        <td><?php echo $dataUser['sesi']; ?></td>
+                        <td><?php echo htmlspecialchars($dataUser['username'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
+                        <td><?php echo htmlspecialchars($dataUser['fullname'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
+                        <td><?php echo htmlspecialchars($dataUser['nomatrik'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
+                        <td><?php echo htmlspecialchars($dataUser['email'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
+                        <td><?php echo htmlspecialchars($dataUser['sesi'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
                         <td>
                           <?php 
-                            if ($user_last_activity > $curr_time) 
+                            if ($user_last_activity !== '' && $user_last_activity > $curr_time) 
                             {
                                 echo "<i class=\"fa fa-circle text-success\"></i> Online";
                             }
@@ -40,7 +40,7 @@ while($dataUser = mysqli_fetch_array($kpd)) {
                         
 
                      </tr>
-                    
+
 <?php
 $no++;
 }

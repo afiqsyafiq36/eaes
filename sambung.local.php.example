@@ -1,0 +1,15 @@
+<?php
+/**
+ * LOCAL database credentials for WAMP.
+ * Copy this file to sambung.local.php and adjust values if needed.
+ *
+ * sambung.local.php is gitignored — do not commit real local secrets if any.
+ *
+ * Why a separate file: keeps your WAMP settings private and easy to change
+ * without touching production credentials in sambung.php.
+ */
+
+$host = 'localhost';
+$user = 'root';
+$password = '';
+$dbname = 'eaes_db';

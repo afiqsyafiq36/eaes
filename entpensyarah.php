@@ -89,8 +89,7 @@ include "Quser.php";
 <script src="./adminlte/bower_components/fastclick/lib/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="./adminlte/dist/js/adminlte.min.js"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="./adminlte/dist/js/pages/dashboard.js"></script>
+<!-- AdminLTE dashboard demo removed (needs #revenue-chart etc. not present on this page) -->
 <!-- AdminLTE for demo purposes -->
 <script src="./adminlte/dist/js/demo.js"></script>
 

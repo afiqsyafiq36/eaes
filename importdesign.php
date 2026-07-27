@@ -38,8 +38,8 @@
 
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-  <!-- CropperJS -->
-  <link rel="stylesheet" href="https://unpkg.com/dropzone/dist/dropzone.css" />
-  <link href="https://unpkg.com/cropperjs/dist/cropper.css" rel="stylesheet"/>
+  <!-- CropperJS / Dropzone (pinned browser builds) -->
+  <link rel="stylesheet" href="https://unpkg.com/dropzone@5.9.3/dist/min/dropzone.min.css" />
+  <link href="https://unpkg.com/cropperjs@1.6.2/dist/cropper.min.css" rel="stylesheet"/>
   <!-- Pace -->
   <link rel="stylesheet" href="./adminlte/plugins/pace/pace.min.css">

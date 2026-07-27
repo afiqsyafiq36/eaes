@@ -34,8 +34,8 @@
 <script src="./adminlte/bower_components/fastclick/lib/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="./adminlte/dist/js/adminlte.min.js"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="./adminlte/dist/js/pages/dashboard.js"></script>
+<!-- Note: pages/dashboard.js intentionally NOT loaded — it expects demo widgets
+     (#revenue-chart, #world-map, etc.) that most EAES pages do not have. -->
 <!-- AdminLTE for demo purposes -->
 <script src="./adminlte/dist/js/demo.js"></script>
 <!-- ChartJS -->
@@ -61,9 +61,9 @@
     unset($_SESSION['status']);
   }
 ?>
-<!-- CropperJS -->
-<script src="https://unpkg.com/dropzone"></script>
-<script src="https://unpkg.com/cropperjs"></script>
+<!-- CropperJS / Dropzone — use browser UMD builds (unpkg bare package entry uses require()) -->
+<script src="https://unpkg.com/dropzone@5.9.3/dist/min/dropzone.min.js"></script>
+<script src="https://unpkg.com/cropperjs@1.6.2/dist/cropper.min.js"></script>
 <!-- Pace -->
 <script src="./adminlte/bower_components/PACE/pace.min.js"></script>
   

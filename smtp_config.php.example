@@ -1,0 +1,23 @@
+<?php
+/**
+ * Gmail SMTP settings for EAES password-reset emails.
+ *
+ * SETUP:
+ * 1. Copy this file to smtp_config.php (same folder)
+ * 2. Enable 2-Step Verification on your Google account
+ * 3. Create an App Password: Google Account → Security → App passwords
+ * 4. Paste the 16-character App Password below (NOT your normal Gmail password)
+ *
+ * smtp_config.php is gitignored — never commit real passwords.
+ */
+
+return array(
+	'smtp_host' => 'smtp.gmail.com',
+	'smtp_port' => 587,
+	// 'tls' for port 587, or 'ssl' for port 465
+	'smtp_secure' => 'tls',
+	'smtp_user' => 'your.email@gmail.com',
+	'smtp_pass' => 'xxxx xxxx xxxx xxxx',
+	'from_email' => 'your.email@gmail.com',
+	'from_name' => 'EAES System',
+);

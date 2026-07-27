@@ -12,7 +12,7 @@ if (!$_SESSION['uname']) {
 $admin_id = $_SESSION['id'];
 $query_admin = mysqli_query($hubung,"SELECT * FROM admin WHERE id = '$admin_id'");
 while($detail = mysqli_fetch_array($query_admin) ) {
-  $imgPath = $detail['image'];
+  $imgPath = $detail['image'] ?? '';
 }
 ?>
 

@@ -18,7 +18,7 @@ while($editDetail = mysqli_fetch_array($tukar) ) {
   $pass = $editDetail['password'];
   $email = $editDetail['email'];
   $notel = $editDetail['notel'];
-  $imgPath = $editDetail['image'];
+  $imgPath = $editDetail['image'] ?? '';
 }
 
 

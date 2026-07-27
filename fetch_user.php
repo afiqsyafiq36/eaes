@@ -13,20 +13,20 @@ session_start();
    $curr_time = date('Y-m-d H:i:s', $current_timestamp);
 
 while($dataUser = mysqli_fetch_array($kpd)) {
-    //online status
-    $user_last_activity = $dataUser['last_activity'];
+    // Why ?? '': local DB may not have last_activity column yet (PHP 8+ warning)
+    $user_last_activity = $dataUser['last_activity'] ?? '';
 
 ?>                  
                       <tr>
                         <th><center><?php echo $no; ?></center></th>
-                        <td><?php echo $dataUser['username']; ?></td>
-                        <td><?php echo $dataUser['fullname']; ?></td>
-                        <td><?php echo $dataUser['nomatrik']; ?></td>
-                        <td><?php echo $dataUser['email']; ?></td>
-                        <td><?php echo $dataUser['sesi']; ?></td>
+                        <td><?php echo htmlspecialchars($dataUser['username'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
+                        <td><?php echo htmlspecialchars($dataUser['fullname'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
+                        <td><?php echo htmlspecialchars($dataUser['nomatrik'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
+                        <td><?php echo htmlspecialchars($dataUser['email'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
+                        <td><?php echo htmlspecialchars($dataUser['sesi'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
                         <td>
                           <?php
-                             if ($dataUser['level'] == '1') {
+                             if (($dataUser['level'] ?? '') == '1') {
                                echo $kategori="Pelajar";
                              }
                              else {
@@ -36,7 +36,8 @@ while($dataUser = mysqli_fetch_array($kpd)) {
                         </td>
                         <td>
                           <?php 
-                            if ($user_last_activity > $curr_time) 
+                            // Offline when no activity timestamp, or older than threshold
+                            if ($user_last_activity !== '' && $user_last_activity > $curr_time) 
                             {
                                 echo "<i class=\"fa fa-circle text-success\"></i> Online";
                             }

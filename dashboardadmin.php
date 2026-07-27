@@ -7,10 +7,12 @@ if (!$_SESSION['uname']) {
   header("location:adminlogin.php");
 }
 
-$admin_id = $_SESSION['id'];
+$admin_id = $_SESSION['id'] ?? 0;
+$imgPath = '';
 $query_admin = mysqli_query($hubung,"SELECT * FROM admin WHERE id = '$admin_id'");
 while($detail = mysqli_fetch_array($query_admin) ) {
-  $imgPath = $detail['image'];
+  // Why ?? '': local DB may not have an "image" column / value yet (PHP 8+ warning)
+  $imgPath = $detail['image'] ?? '';
 }
 
 $ciri = mysqli_query($hubung,"SELECT * FROM entrance");
@@ -29,6 +31,11 @@ $donut3 = mysqli_query($hubung,"SELECT * FROM visitor WHERE id = '5'");
 $dPelajar = mysqli_fetch_array($donut1);
 $dPensyarah = mysqli_fetch_array($donut2);
 $dPelawat = mysqli_fetch_array($donut3);
+
+// Safe defaults if visitor rows are missing locally
+$countPelajar = (int) ($dPelajar['access_counter'] ?? 0);
+$countPensyarah = (int) ($dPensyarah['access_counter'] ?? 0);
+$countPelawat = (int) ($dPelawat['access_counter'] ?? 0);
 ?>
 
 <!DOCTYPE html>
@@ -419,19 +426,20 @@ $dPelawat = mysqli_fetch_array($donut3);
     "use strict";
 
     
-    //DONUT CHART
-    var donut = new Morris.Donut({
-      element: 'sales-chart',
-      resize: true,
-      colors: ["#3c8dbc", "#f56954", "#00a65a"],
-      data: [
-        {label: "Login Pelajar", value: <?php echo $dPelajar['access_counter']; ?>},
-        {label: "Login Pensyarah", value: <?php echo $dPensyarah['access_counter']; ?>},
-        {label: "Jumlah Pelawat", value: <?php echo $dPelawat['access_counter']; ?>}
-      ],
-      hideHover: 'auto'
-    });
-    
+    //DONUT CHART — only if container exists (avoids Morris "container not found")
+    if ($('#sales-chart').length) {
+      new Morris.Donut({
+        element: 'sales-chart',
+        resize: true,
+        colors: ["#3c8dbc", "#f56954", "#00a65a"],
+        data: [
+          {label: "Login Pelajar", value: <?php echo $countPelajar; ?>},
+          {label: "Login Pensyarah", value: <?php echo $countPensyarah; ?>},
+          {label: "Jumlah Pelawat", value: <?php echo $countPelawat; ?>}
+        ],
+        hideHover: 'auto'
+      });
+    }
   });
 </script>
 
